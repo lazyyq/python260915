@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#07131d">
+  <title>XEVIORA — Vertical Strike</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="cabinet">
+    <header class="topbar">
+      <div class="brand"><span>XEVIORA</span><small>VERTICAL STRIKE</small></div>
+      <div class="status"><span>BEST</span><strong id="bestScore">000000</strong></div>
+    </header>
+
+    <section class="game-shell" aria-label="종스크롤 슈팅 게임">
+      <canvas id="gameCanvas" width="480" height="720"></canvas>
+
+      <div id="startScreen" class="overlay visible">
+        <div class="emblem" aria-hidden="true"><i></i><b></b><i></i></div>
+        <p class="eyebrow">OPERATION 01</p>
+        <h1>SKY FRONTIER</h1>
+        <p class="lead">적 방어선을 돌파하고 지상 코어를 파괴하라</p>
+        <button id="startButton" class="primary">출격하기 <kbd>ENTER</kbd></button>
+        <div class="controls">
+          <div><span class="key">WASD</span><small>이동</small></div>
+          <div><span class="key">SPACE</span><small>공중 사격</small></div>
+          <div><span class="key">X</span><small>지상 폭격</small></div>
+          <div><span class="key">P</span><small>일시정지</small></div>
+        </div>
+      </div>
+
+      <div id="gameOverScreen" class="overlay">
+        <p class="eyebrow">MISSION ENDED</p>
+        <h2>작전 종료</h2>
+        <div class="result-row"><span>SCORE</span><strong id="finalScore">000000</strong></div>
+        <div class="result-row"><span>BEST</span><strong id="finalBest">000000</strong></div>
+        <button id="restartButton" class="primary">다시 출격 <kbd>ENTER</kbd></button>
+      </div>
+
+      <div id="pauseScreen" class="pause-card">PAUSED <small>P 키로 계속</small></div>
+
+      <div class="scanlines" aria-hidden="true"></div>
+    </section>
+
+    <footer>
+      <span><i class="dot cyan"></i> AIR SHOT <b>SPACE</b></span>
+      <span><i class="dot amber"></i> BOMB <b>X</b></span>
+      <button id="soundButton" class="sound" aria-label="소리 켜기/끄기">SOUND: ON</button>
+    </footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
