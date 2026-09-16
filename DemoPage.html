@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web Basics Lab</title>
+  <style>
+    :root {
+      --ink: #183642;
+      --muted: #5c7378;
+      --paper: #fffdf7;
+      --canvas: #e8f1ed;
+      --accent: #e36b3d;
+      --accent-dark: #a94627;
+      --line: #c9d9d2;
+      --code: #173f4a;
+      --shadow: 0 18px 50px rgba(24, 54, 66, .13);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 8%, rgba(227, 107, 61, .18), transparent 24rem),
+        linear-gradient(135deg, var(--canvas), #f8f4e7 58%, #f1dfcf);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.6;
+    }
+
+    .page {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0;
+    }
+
+    .logo {
+      color: var(--ink);
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    nav { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    nav a, .text-button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: var(--ink);
+      cursor: pointer;
+      font: inherit;
+      font-size: .9rem;
+      padding: 7px 13px;
+      text-decoration: none;
+    }
+
+    nav a:hover, .text-button:hover { border-color: var(--ink); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 32px;
+      align-items: end;
+      min-height: 410px;
+      padding: 52px 0 70px;
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 720px;
+      margin-bottom: 22px;
+      font-size: clamp(3.4rem, 9vw, 7.4rem);
+      line-height: .9;
+      letter-spacing: -.04em;
+    }
+
+    .hero-copy { max-width: 570px; color: var(--muted); font-size: 1.15rem; }
+
+    .hero-note {
+      border-top: 2px solid var(--accent);
+      padding-top: 15px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    section { padding: 72px 0; }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    h2 { margin-bottom: 0; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; }
+    .section-heading p { max-width: 390px; margin-bottom: 0; color: var(--muted); }
+
+    .lesson-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .lesson-card, .playground {
+      background: rgba(255, 253, 247, .84);
+      border: 1px solid rgba(201, 217, 210, .9);
+      box-shadow: var(--shadow);
+    }
+
+    .lesson-card { min-height: 300px; padding: 24px; }
+    .lesson-card:nth-child(2) { transform: translateY(24px); }
+    .lesson-card h3 { margin-bottom: 10px; font-size: 1.55rem; }
+    .lesson-card p { color: var(--muted); }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 34px;
+      color: var(--accent-dark);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    code, pre { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { color: var(--accent-dark); }
+
+    .playground {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 28px;
+      padding: 28px;
+    }
+
+    .controls { display: grid; align-content: start; gap: 16px; }
+    label { color: var(--muted); font-size: .9rem; }
+    input, button { font: inherit; }
+
+    input[type="text"] {
+      width: 100%;
+      margin-top: 6px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 11px 12px;
+    }
+
+    .button-row { display: flex; flex-wrap: wrap; gap: 9px; }
+
+    button {
+      border: 0;
+      border-radius: 5px;
+      background: var(--accent);
+      color: #fffaf0;
+      cursor: pointer;
+      font-weight: 700;
+      padding: 11px 15px;
+    }
+
+    button:hover { background: var(--accent-dark); }
+
+    .preview {
+      display: grid;
+      place-items: center;
+      min-height: 260px;
+      border: 2px dashed var(--line);
+      background: var(--paper);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .preview h3 { margin-bottom: 6px; font-size: 2rem; }
+    .preview p { color: var(--muted); }
+
+    pre {
+      overflow-x: auto;
+      margin: 0;
+      border-radius: 5px;
+      background: var(--code);
+      color: #e5f4e8;
+      padding: 20px;
+      font-size: .85rem;
+      line-height: 1.7;
+    }
+
+    footer { border-top: 1px solid var(--line); padding: 25px 0 45px; color: var(--muted); }
+
+    .dark-mode {
+      --ink: #f5f0df;
+      --muted: #b8c9c3;
+      --paper: #203c40;
+      --canvas: #122a30;
+      --line: #426365;
+      --code: #091b21;
+      background: radial-gradient(circle at 90% 10%, rgba(227, 107, 61, .26), transparent 25rem), var(--canvas);
+    }
+
+    @media (max-width: 760px) {
+      header, .hero, .playground { grid-template-columns: 1fr; }
+      header { align-items: flex-start; flex-direction: column; }
+      .hero { min-height: auto; padding-top: 36px; }
+      .lesson-grid { grid-template-columns: 1fr; }
+      .lesson-card:nth-child(2) { transform: none; }
+      .section-heading { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a class="logo" href="#top">Web Basics Lab</a>
+      <nav aria-label="주요 메뉴">
+        <a href="#lessons">Lesson</a>
+        <a href="#playground">Playground</a>
+        <button class="text-button" id="themeButton" type="button">테마 변경</button>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="main-title">
+        <div>
+          <p class="eyebrow">HTML5 · CSS3 · JavaScript</p>
+          <h1 id="main-title">웹의 뼈대와 표정, 움직임.</h1>
+          <p class="hero-copy">세 가지 기술이 어떻게 협력하는지 작은 실험으로 익혀보세요. 이 페이지 자체가 하나의 학습 예제입니다.</p>
+        </div>
+        <p class="hero-note">HTML은 내용을 의미 있게 배치하고, CSS는 보기 좋게 꾸미며, JavaScript는 사용자의 행동에 반응합니다.</p>
+      </section>
+
+      <section id="lessons" aria-labelledby="lesson-title">
+        <div class="section-heading">
+          <h2 id="lesson-title">Three layers</h2>
+          <p>코드를 읽을 때 아래 순서로 생각하면 구조를 빠르게 파악할 수 있습니다.</p>
+        </div>
+        <div class="lesson-grid">
+          <article class="lesson-card">
+            <span class="tag">01 / HTML5</span>
+            <h3>의미를 담는 구조</h3>
+            <p><code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code> 같은 시맨틱 태그로 콘텐츠의 역할을 표현합니다.</p>
+          </article>
+          <article class="lesson-card">
+            <span class="tag">02 / CSS3</span>
+            <h3>화면의 분위기</h3>
+            <p>선택자, 박스 모델, Grid, Flexbox, 미디어 쿼리로 화면의 배치와 반응형 디자인을 만듭니다.</p>
+          </article>
+          <article class="lesson-card">
+            <span class="tag">03 / JavaScript</span>
+            <h3>사용자와 대화</h3>
+            <p>이벤트를 듣고 DOM을 바꾸면서 버튼 클릭, 입력 처리, 테마 변경 같은 상호작용을 구현합니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="playground" aria-labelledby="playground-title">
+        <div class="section-heading">
+          <h2 id="playground-title">Try it</h2>
+          <p>아래 입력창과 버튼을 조작해 JavaScript가 페이지를 바꾸는 모습을 확인하세요.</p>
+        </div>
+        <div class="playground">
+          <div class="controls">
+            <label for="nameInput">이름 입력
+              <input id="nameInput" type="text" placeholder="예: 민수">
+            </label>
+            <div class="button-row">
+              <button id="greetButton" type="button">인사하기</button>
+              <button id="countButton" type="button">클릭 수: 0</button>
+            </div>
+            <p id="statusText" aria-live="polite">버튼을 눌러 실험을 시작해보세요.</p>
+          </div>
+          <div class="preview" id="previewBox">
+            <div>
+              <span class="tag">LIVE PREVIEW</span>
+              <h3>작은 변화도 코드입니다.</h3>
+              <p>입력값과 이벤트가 이 영역에 반영됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="code-title">
+        <div class="section-heading">
+          <h2 id="code-title">Read the code</h2>
+          <p>이 파일을 저장한 뒤 태그, 스타일, 이벤트 코드를 직접 바꿔보세요.</p>
+        </div>
+        <pre><code>&lt;button id="greetButton"&gt;인사하기&lt;/button&gt;
+
+const button = document.querySelector('#greetButton');
+button.addEventListener('click', () =&gt; {
+  statusText.textContent = '버튼 클릭 이벤트가 실행되었습니다!';
+});</code></pre>
+      </section>
+    </main>
+
+    <footer>한 파일로 배우는 Web Basics Lab · 저장하고 새로고침하며 실험하세요.</footer>
+  </div>
+
+  <script>
+    const nameInput = document.querySelector('#nameInput');
+    const greetButton = document.querySelector('#greetButton');
+    const countButton = document.querySelector('#countButton');
+    const themeButton = document.querySelector('#themeButton');
+    const statusText = document.querySelector('#statusText');
+    const previewBox = document.querySelector('#previewBox');
+    let clickCount = 0;
+
+    greetButton.addEventListener('click', () => {
+      const name = nameInput.value.trim() || '방문자';
+      statusText.textContent = `${name}님, JavaScript 실험에 오신 것을 환영합니다!`;
+      previewBox.querySelector('h3').textContent = `반가워요, ${name}님!`;
+    });
+
+    countButton.addEventListener('click', () => {
+      clickCount += 1;
+      countButton.textContent = `클릭 수: ${clickCount}`;
+      statusText.textContent = `이벤트가 ${clickCount}번 실행되었습니다.`;
+    });
+
+    themeButton.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeButton.textContent = isDark ? '밝은 테마' : '어두운 테마';
+    });
+  </script>
+</body>
+</html>
